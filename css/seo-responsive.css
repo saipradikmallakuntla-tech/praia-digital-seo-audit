@@ -1,0 +1,10 @@
+/* Shared responsive-media regression fix. Do not hide overflow to conceal it. */
+picture { display: block; max-width: 100%; }
+picture > img, main img, .pd-preserved-intro img, .hero img {
+  max-width: 100%;
+  height: auto;
+}
+main, .property-card, .property-info { min-width: 0; }
+main input, main select, main textarea { max-width: 100%; box-sizing: border-box; }
+/* Keep intentionally scrollable data tables inside their own container. */
+.table-scroll { max-width: 100%; overflow-x: auto; }

@@ -1,26 +1,18 @@
+# Private material requires access control; robots.txt is not security.
+# Do not disallow public noindex pages: crawlers must read their directives.
 User-agent: *
-Allow: /
-Disallow: /scripts/
-Disallow: /scripts/automation/
-Disallow: /node_modules/
 Disallow: /.git/
-Disallow: /backups/
+Disallow: /.github/
+Disallow: /node_modules/
 Disallow: /backup/
-Disallow: /dashboards/
-Disallow: /dashboard/
-Disallow: /leads/
-Disallow: /lead/
-Disallow: /outreach/
-Disallow: /propostas/
-Disallow: /education/cursos/_archive
-Disallow: /education/marketing/campaigns/
-Disallow: /ferramentas/airbnb-admin.html
+Disallow: /backups/
+Disallow: /scripts/
+Allow: /css/
+Allow: /js/
+Allow: /assets/
 
-Sitemap: https://praia.digital/sitemap.xml
 Sitemap: https://praia.digital/sitemap-apps.xml
-Host: https://praia.digital
-
 Sitemap: https://praia.digital/sitemap-boletim.xml
-
 Sitemap: https://praia.digital/sitemap-marketplaces.xml
 Sitemap: https://praia.digital/sitemap-profissionais.xml
+Sitemap: https://praia.digital/sitemap.xml

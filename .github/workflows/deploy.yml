@@ -11,6 +11,8 @@ permissions:
 
 jobs:
   deploy:
+    # The audit fork must never deploy, even if someone later enables Actions.
+    if: github.repository == 'acarolmourad-commits/praia-digital' && github.ref == 'refs/heads/main'
     concurrency:
       group: pages
       cancel-in-progress: true
@@ -21,35 +23,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Prepare shared navigation
         run: |
           python3 scripts/build-content-discovery.py
           python3 -m unittest discover -s tests -p 'test_navigation.py'
           python3 scripts/build-navigation.py --report "$RUNNER_TEMP/navigation-report.json"
           python3 scripts/fix_empty_h1.py
-
       - name: Exclude assisted-delivery workbooks from public Pages
         run: python3 scripts/prepare_academy_publication.py
-
       - name: Enforce owner-approved listing retirements
         run: |
           python3 scripts/enforce_listing_retirements.py --apply
           python3 -m unittest discover -s tests -p 'test_listing_retirements.py'
           python3 scripts/enforce_listing_retirements.py
-
+      - name: Normalize static SEO and regenerate public canonical sitemaps
+        run: |
+          python3 -m unittest discover -s tests -p 'test_seo_audit.py'
+          python3 scripts/seo_audit.py --root . --apply
+          python3 scripts/seo_audit.py --root . --check
       - name: Validate sitemap before publication
         run: python3 scripts/validate_sitemap_targets.py
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: .
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
