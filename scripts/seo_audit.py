@@ -159,14 +159,22 @@ def sync_catalog(text, items):
             return ''
         if isinstance(value, dict) and isinstance(value.get('@graph'), list):
             value['@graph'] = [v for v in value['@graph'] if v.get('@type') != 'ItemList']
-            return '<script type="application/ld+json">' + json.dumps(value, ensure_ascii=False) + '</script>'
+            return '<script type="application/ld+json">' + json.dumps(value, ensure_ascii=False, sort_keys=True) + '</script>'
         return match.group(0)
-    text = LD_RE.sub(remove_old, text)
-    payload = json.dumps(catalog_schema(items), ensure_ascii=False).replace('<', '\\u003c')
+    # Remove owned trailing whitespace with the old block, not just its tag.
+    text = re.sub(LD_RE.pattern + r'[ \t\r\n]*', remove_old, text, flags=LD_RE.flags)
+    payload = json.dumps(catalog_schema(items), ensure_ascii=False, sort_keys=True).replace('<', '\\u003c')
+    # Replace both managed scripts as one stable head suffix. Removing just the
+    # ItemList moved it past the runtime script on pass two and retained a new
+    # blank line on every pass. Do not change unrelated scripts or page bodies.
+    runtime = re.compile(
+        r'<script\b(?=[^>]*\bsrc\s*=\s*["\'](?:https://praia\.digital)?'
+        r'/js/catalog-seo\.js(?:\?[^"\']*)?["\'])[^>]*>\s*</script\s*>[ \t\r\n]*', re.I)
+    text = runtime.sub('', text)
     block = '<script id="catalog-itemlist" type="application/ld+json">' + payload + '</script>\n'
-    if 'src="/js/catalog-seo.js"' not in text:
-        block += '<script defer src="/js/catalog-seo.js"></script>\n'
-    text = re.sub(r'</head\s*>', lambda m: block + m.group(0), text, count=1, flags=re.I)
+    block += '<script defer src="/js/catalog-seo.js"></script>\n'
+    text = HEAD_RE.sub(lambda m: m.group(1) + m.group(2).rstrip() + '\n' + block + m.group(3),
+                       text, count=1)
     cards = '\n'.join('<article class="property-card"><h3 class="property-title"><a href="' +
                       html.escape(urlsplit(p['url']).path, quote=True) + '">' +
                       html.escape(p['name']) + '</a></h3><a class="btn-secondary" href="' +
@@ -231,7 +239,12 @@ def normalize_html(text, rel, root=None):
     tags += ['<link rel="stylesheet" href="/css/seo-responsive.css">']
     head = match.group(2)
     for start, length in sorted(info.edits, reverse=True):
-        head = head[:start] + head[start + length:]
+        # Consume each managed tag's formatting whitespace as well. Otherwise
+        # catalog insertion can strand old metadata newlines before its script.
+        end = start + length
+        while end < len(head) and head[end] in ' \t\r\n':
+            end += 1
+        head = head[:start] + head[end:]
     # Whitespace at the end is normalized so repeated builds are byte-stable.
     head = head.rstrip() + '\n' + '\n'.join(tags) + '\n'
     result = text[:match.start(2)] + head + text[match.end(2):]
@@ -276,7 +289,7 @@ def apply_site(root, write=False):
                 outputs[path] = text
                 changed_html += 1
     counts, excluded = {}, {}
-    for name, urls in groups.items():
+    for name, urls in sorted(groups.items()):
         included = set()
         for url in urls:
             path = local_file(url, root)
@@ -319,7 +332,7 @@ def main():
     mode.add_argument('--check', action='store_true')
     args = parser.parse_args()
     report = apply_site(args.root, write=args.apply)
-    print(json.dumps(report, ensure_ascii=False, indent=2))
+    print(json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2))
     return 1 if args.check and report['changed_files'] else 0
 
 

@@ -52,7 +52,9 @@ An optional Playwright test reproduces an 800px hero at 360px, 390px and 1440px,
 SEO_BROWSER_TESTS=1 python3 -m unittest discover -s tests -p 'test_seo_audit.py' -v
 ```
 
-**Execution status at this source commit:** tests supplied; execution results will be added after running the exact committed files. Do not interpret test presence as passing CI. Actions intentionally remains disabled. Full-repository generated-artifact validation and real-device testing are separate from fixture-level regression tests.
+**Verified execution:** all **17 core regression tests pass**. With `SEO_BROWSER_TESTS=1`, the optional Chromium hero regression also passes at 360px, 390px and 1440px: **18 tests total, zero failures, zero errors and zero skips**. The unchanged core suite also passes in separate processes with `PYTHONHASHSEED=1`, `42` and `random` (only the optional browser test skipped in those core-only runs). Generated fixture file bytes are identical across hash seeds `0`, `1`, `42` and `random`; a subsequent check reports `changed_files: 0`.
+
+These are local, fixture-level results, not GitHub Actions/CI runs or a full generated production-site validation. Actions remains disabled. Full-repository generated-artifact validation and real-device testing remain separate checks.
 
 ## Deliberately not guessed or changed
 
@@ -64,3 +66,18 @@ SEO_BROWSER_TESTS=1 python3 -m unittest discover -s tests -p 'test_seo_audit.py'
 ## Deployment safety
 
 The fork was created as public; its `main` remains the inherited source snapshot. All SEO commits target only `seo-improvements`. GitHub Actions was explicitly disabled and read back as `enabled: false`. GitHub Pages returned 404/not configured. These settings must be checked again after the final commit. The source domain's DNS and upstream repository were not modified.
+
+## Idempotence correction verified after the initial source commit
+
+The initial branch commit `f3d5f3fcd0dc0d57f84a05494b1daa4fcb6d2954` failed two core tests: catalog synchronization and repeated full-build idempotence. There were no dynamic timestamp calls to remove. The actual defect was that replacing the ItemList moved it relative to the existing runtime script and retained formatting whitespace from both scripts and removed metadata tags. Repeated builds therefore changed `imoveis.html` despite unchanged inputs.
+
+The generator now removes both managed catalog scripts together with their owned trailing whitespace, reinserts them in a stable order, and consumes formatting whitespace belonging to replaced metadata tags. JSON serialization uses sorted keys; sitemap groups, traversal, robots directives and emitted URL sets have deterministic ordering. No timestamps, random values or set-iteration order are inserted into generated HTML/XML. The original regression assertions were not removed or weakened.
+
+Reproduce the full result locally (install Playwright Chromium first if necessary):
+
+```sh
+python3 -m playwright install chromium
+SEO_BROWSER_TESTS=1 python3 -m unittest discover -s tests -p 'test_seo_audit.py' -v
+```
+
+On this verification sandbox, `PLAYWRIGHT_BROWSERS_PATH=/home/user/.cache/ms-playwright` selected the already installed browser cache; no repository or test-file modification was needed for that environment setting.
