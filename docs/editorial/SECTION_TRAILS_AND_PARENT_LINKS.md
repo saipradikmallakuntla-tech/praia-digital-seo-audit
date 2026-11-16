@@ -12,14 +12,14 @@ Do not treat these roles as interchangeable. Repeated wording is not sufficient 
 
 ## 2. Four-family writing matrix
 
-The following are proposed patterns, not claims that every existing page already has these trails. Angle-bracket labels are editorial placeholders, not URLs to create.
+The following are proposed patterns, not claims that every existing page already has these trails. Labels in code spans are editorial placeholders, not URLs to create.
 
 | Family | Section landing trail | Child-page trail | Parent-return wording and verified destination |
 | --- | --- | --- | --- |
-| imoveis | Início → Imóveis | Início → Imóveis → <page title> | Voltar para Imóveis → [imoveis.html](https://praia.digital/imoveis.html) |
-| ferramentas | Início → Ferramentas | Início → Ferramentas → <tool title> | Voltar para Ferramentas → [ferramentas/index.html](https://praia.digital/ferramentas/index.html) |
-| bairros | Início → Bairros | Início → Bairros → <city, when evidenced> → <neighbourhood> | Voltar para Bairros → [bairros/index.html](https://praia.digital/bairros/index.html); a verified city grouping may be a more precise immediate return |
-| blog | Início → Blog | Início → Blog → <article title> | Voltar para o Blog → [blog/index.html](https://praia.digital/blog/index.html) |
+| imoveis | Início → Imóveis | Início → Imóveis → `<page title>` | Voltar para Imóveis → [imoveis.html](https://praia.digital/imoveis.html) |
+| ferramentas | Início → Ferramentas | Início → Ferramentas → `<tool title>` | Voltar para Ferramentas → [ferramentas/index.html](https://praia.digital/ferramentas/index.html) |
+| bairros | Início → Bairros | Início → Bairros → `<city, when evidenced>` → `<neighbourhood>` | Voltar para Bairros → [bairros/index.html](https://praia.digital/bairros/index.html); a verified city grouping may be a more precise immediate return |
+| blog | Início → Blog | Início → Blog → `<article title>` | Voltar para o Blog → [blog/index.html](https://praia.digital/blog/index.html) |
 
 **Início** means [the production home](https://praia.digital/) only for production-family content. On a section landing page, the section is current and the parent is Início; do not add a self-return link. The different article in “Voltar para o Blog” is natural Portuguese, not a second section identity.
 
@@ -41,7 +41,7 @@ For Imóveis, preserve listing/filter context and avoid promising that every nam
 
 Keep the municipality needed to identify a neighbourhood, especially when names repeat across cities. A city can appear in the visible wording without being a link. Link a city intermediary only after the actual city page or existing directory anchor has been evidenced; otherwise use a shorter verified trail and retain the city in the heading/context.
 
-A return such as “Bairros de <Cidade>” is a candidate only when its destination is established. Do not invent `bairros/<cidade>/`, guess fragment IDs, remove city-group anchors or convert an index into an official list of distinct neighbourhoods. Preserve alternative-name and unconfirmed-reference caveats.
+A return such as `Bairros de <Cidade>` is a candidate only when its destination is established. Do not invent `bairros/<cidade>/`, guess fragment IDs, remove city-group anchors or convert an index into an official list of distinct neighbourhoods. Preserve alternative-name and unconfirmed-reference caveats.
 
 The separate E01-008/E01-009 city/directory URL questions remain pending in the earlier URL-governance register. This writing specification does not settle canonicals, aliases or redirects.
 

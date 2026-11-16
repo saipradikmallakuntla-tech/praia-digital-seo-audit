@@ -66,7 +66,7 @@ These URLs identify observed sources, not a permanent availability guarantee or 
 
 ## 5. Publication, checkpoints and next action
 
-Documentation publication and substantive editorial approval are separate. The publication receipt is created after read-only API checks: five new branches from their own main baselines; one Markdown-only audit commit and one README-only commit per satellite; all nine committed files read back; immutable audit links in every README; unchanged pre-existing heads and publication settings. The Drive brief carries all nine resulting GitHub file links.
+Documentation publication and substantive editorial approval are separate. The publication receipt is created after read-only API checks: five new branches from their own main baselines; Markdown-only audit history and one README-only commit per satellite; all nine committed files read back; immutable audit links in every README; unchanged pre-existing heads and publication settings. The Drive brief carries all nine resulting GitHub file links.
 
 No record is marked substantively approved merely because its README or standard is committed. Do not add the containing commit SHA to this file in a self-referential amendment; keep immutable receipts in the Drive brief and completion response.
 
