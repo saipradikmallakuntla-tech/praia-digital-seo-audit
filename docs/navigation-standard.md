@@ -36,3 +36,11 @@ Bertioga, Santos, Guarujá e Praia Grande. Não faz deploy.
 Somente um merge posterior em `main` aciona a publicação existente.
 
 O submenu Inteligência inclui Serviços de IA para empresas em `/servicos-ia.html`.
+
+## Arquitetura de informação e navegação editorial — documentação
+
+- [IA & Navigation Standards](editorial/IA_AND_NAVIGATION_STANDARDS.md): vocabulário, quatro seções, identidades independentes e governança.
+- [Section Trails & Parent Links](editorial/SECTION_TRAILS_AND_PARENT_LINKS.md): convenções de trilha e retorno para Imóveis, Ferramentas, Bairros e Blog.
+- [Navigation Decision Register](editorial/NAVIGATION_DECISION_REGISTER.md): evidências, propostas, responsáveis a designar e decisões pendentes.
+
+A publicação deste pacote Markdown foi confirmada pelo proprietário; propostas de redação pública continuam sem aprovação substantiva. Os comandos e testes históricos acima não são instruções para esta passagem. Não há autorização para código, `sw.js`, suítes, automação, PR, merge, deploy, alterações de URL/schema ou configurações. Os grupos globais existentes são preservados; as seções editoriais não os substituem. As propostas anteriores de URL e cabeçalho/trilhas continuam referenciadas por commits imutáveis no novo pacote, sem merge de suas branches.
