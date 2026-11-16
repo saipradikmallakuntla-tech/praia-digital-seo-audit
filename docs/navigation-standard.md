@@ -36,3 +36,13 @@ Bertioga, Santos, Guarujá e Praia Grande. Não faz deploy.
 Somente um merge posterior em `main` aciona a publicação existente.
 
 O submenu Inteligência inclui Serviços de IA para empresas em `/servicos-ia.html`.
+
+## Complementos editoriais — cabeçalho mobile e trilhas
+
+Propostas de redação e simplificação de conteúdo, sem alteração de implementação:
+
+- [Mobile Header Copy Standards](ux/MOBILE_HEADER_COPY_STANDARDS.md).
+- [Redundant Trail Removal Guidelines](ux/REDUNDANT_TRAIL_REMOVAL_GUIDELINES.md).
+- [Registro de propostas, evidências e próximas revisões](ux/MOBILE_NAV_AND_TRAIL_COPY_REGISTER.md).
+
+A publicação destes documentos não aprova os rótulos propostos nem autoriza executar os comandos históricos acima, alterar código, rodar suítes, abrir PR, fazer merge ou publicar em produção. Contexto de cidade/bairro, navegação útil e requisitos de acessibilidade não são removidos por serem visualmente repetidos.
